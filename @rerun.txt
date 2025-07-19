@@ -1,6 +1,2 @@
-<<<<<<< HEAD
-src\test\features\CheckOut.feature:19:8:31
-=======
 src\test\features\CheckOut.feature:19
 src\test\features\Tag.feature:12:13
->>>>>>> cdbac71 (Added UserRegistration Scenario)
