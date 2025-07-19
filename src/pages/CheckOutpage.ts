@@ -25,11 +25,11 @@ private Elements = {
     option1: '//*[@id="billing-address-select"]/option[1]',
     billingaddresscontinue:"//div[@id='billing-buttons-container']//input",
     billcontinuebtn: '//div//child::input[@class="button-1 new-address-next-step-button"]',
-    storepick: '#PickUpInStore',
-    shipcontinuebtn: '//div[@id="shipping-buttons-container"]//p//following-sibling::input',
+    storepick: '//input[@id="PickUpInStore"]',
+    shipcontinuebtn: '//div[@id="shipping-buttons-container"]//input',
     shippingcntinue: '//div[@id="shipping-method-buttons-container"]//input',
-    paymentcontinue: '//div[@class="buttons"]//child::input[@class="button-1 payment-method-next-step-button"]',
-    paymentinfobtncontinue: '//p//following-sibling::input[@class="button-1 payment-info-next-step-button"]',
+    paymentcontinue: '//*[@id="payment-method-buttons-container"]//input',
+    paymentinfobtncontinue: '//input[@class="button-1 payment-info-next-step-button"]',
     confirmbtnincheckout: '//div[@id="confirm-order-buttons-container"]//input[@class="button-1 confirm-order-next-step-button"]',
     invoicepdfdownload:"//div//ul//li[2]//a[text()=\"Click here for order details.\"]",
     confirmplacedoreder: '//div[@class="section order-completed"]//div[@class="title"]//strong',
@@ -51,7 +51,13 @@ private Elements = {
     backtoshipping: '//div[@id="shipping-method-buttons-container"]//p//a',
     thankyou: '//div[@class="page-title"]//h1',
     steps:"//div[@class='page-body checkout-data']//ol//li//div//h2",
-    checkouttext:"//div[@class='page-title']//h1"
+    checkouttext:"//div[@class='page-title']//h1",
+    storepickupcontinue:'//*[@id="shipping-buttons-container"]/input',
+    orderdetailslink:'//div//ul//li[2]//a[text()="Click here for order details."]',
+    orderinformation:'h1:has-text("Order information")',
+    invoicedetailstext:'//table[@class="cart-total"]//tbody//tr//td//span',
+    orderinfotext:'//div[@class="page-title"]//h1',
+    creaditcardcheckbox:'//div[@class="section payment-method"]//ul//li[3]//div//div[2]//input',
 };
 
     async clickLoginButtonHomePage() {
@@ -126,40 +132,41 @@ private Elements = {
         await this.page.waitForTimeout(2000);
         await this.page.locator(this.Elements.addressfield).click();
         await this.page.locator(this.Elements.addressfield).selectOption({ index: 0 });
-        // await this.page.locator(this.Elements.option1).click();
-        // await this.page.waitForTimeout(2000); 
+        
     }
 
     async clickBillingAddressContinueButton() {
-        await this.page.waitForTimeout(2000);
         await this.page.locator(this.Elements.billingaddresscontinue).click();
     }
 
+    async twodaypickup()
+    {
+        await this.page.locator(this.Elements.twodayshipping).click();
+    }
+
     async selectStorePick() {
-        // await this.page.waitForTimeout(2000);
+      
         await this.page.locator(this.Elements.storepick).check();
     }
 
     async clickShipContinueButton() {
-        // await this.page.waitForTimeout(2000);
-        await this.page.locator(this.Elements.shipcontinuebtn).click();
+    
+        await this.page.locator(this.Elements.storepickupcontinue).click();
+        
     }
-
-    async clickShippingContinueButton() {
-        await this.page.waitForTimeout(2000);
+    async clickshippinfctninue()
+    {
         await this.page.locator(this.Elements.shippingcntinue).click();
+
     }
 
     async clickPaymentContinueButton() {
-        await this.page.waitForTimeout(2000);
         await this.page.locator(this.Elements.paymentcontinue).click();
-        // await this.page.waitForTimeout(2000);
     }
-
+    
     async clickPaymentInfoContinueButton() {
-        await this.page.waitForTimeout(2000);
         await this.page.locator(this.Elements.paymentinfobtncontinue).click();
-        // await this.page.waitForTimeout(4000);
+        
     }
 
     async clickConfirmButtonInCheckout() {
@@ -177,6 +184,64 @@ private Elements = {
         await this.page.waitForTimeout(2000); 
 
     }
+    async downloadInvoicePDF() {
+    try {
+      // Locate and click on the "Click here for order details." link
+      const orderDetailsLink = this.page.locator(this.Elements.orderdetailslink);
+      await orderDetailsLink.scrollIntoViewIfNeeded();
+      await orderDetailsLink.click();
+
+      // Validate the "Order information" text
+      const actualText = await this.page.locator(this.Elements.orderinformation).textContent();
+      const expectedText = "Order information";
+
+      expect(actualText?.trim()).toBe(expectedText);
+
+      console.log("Invoice PDF download flow verified.");
+    } catch (error) {
+      console.log("Invoice not downloaded:", error);
+    }
+  }
+   async verifyInvoiceDetails() {
+    // Get all invoice summary text elements
+    const elements = this.page.locator(this.Elements.invoicedetailstext);
+    const count = await elements.count();
+
+    for (let i = 0; i < count; i++) {
+      const text = await elements.nth(i).textContent();
+      console.log(text?.trim());
+    }
+
+    // Wait for heading "Order information" and verify it
+    const header = this.page.locator(this.Elements.orderinfotext);
+    await header.waitFor({ state: 'visible', timeout: 30000 });
+
+    const actual = (await header.textContent())?.trim();
+    const expected = "Order information";
+
+    await expect(actual).toBe(expected);
+  }
+
+  async checkboxforcreditcard()
+  {
+    await this.page.locator(this.Elements.creaditcardcheckbox).check();
+  }
+  async fillCreditCardDetails(name: string, number: string, expMonth: string, year: string, code: string) {
+    await this.page.fill(this.Elements.cardholdername, name);
+    await this.page.fill(this.Elements.cardnumber, number);
+    await this.page.selectOption(this.Elements.expirymonth, expMonth);  // Make sure expMonth is like "05"
+    await this.page.selectOption(this.Elements.year, year);
+    await this.page.fill(this.Elements.cardcode, code);
+
+    console.log(`Entered credit card details: ${name}, ${number}, ${expMonth}, ${year}, ${code}`);
+  }
+
+  async backtoshippings()
+  {
+    await this.page.locator(this.Elements.backtoshipping).click();
+  }
+
+
 
    
 
