@@ -35,7 +35,7 @@ export default class TagPage {
   }
 
   async getTagPageTitle(): Promise<string> {
-    const titleLocator = this.page.locator("//div[@class='page-title'] h1");
+    const titleLocator = this.page.locator("//div[@class='page-title']//h1");
     await titleLocator.waitFor({ state: 'visible' });
     const title = await titleLocator.textContent();
     console.log(`Page title fetched: ${title?.trim()}`);
