@@ -9,7 +9,7 @@ export default class BookPage {
   }
 
   private elements = {
-    booksCategory: "//a[contains(text(),'Books')][3]",
+    booksCategory: "(//a[contains(text(),'Books')])[3]",
     bookTitle: "//div[@class='page category-page']//h1",
     fictionBook: "//a[contains(text(),'Fiction EX')]",
     fictionDetail: "//div[@class='overview']",
@@ -25,9 +25,15 @@ export default class BookPage {
     comparePrices: "//table[@class='compare-products-table']//tr[3]/td"
   };
 
+  // async clickBooksCategory() {
+  //   await this.base.waitAndClick(this.elements.booksCategory);
+  // }
   async clickBooksCategory() {
-    await this.base.waitAndClick(this.elements.booksCategory);
-  }
+  console.log('Waiting for Books Category to be visible...');
+  await this.page.locator(this.elements.booksCategory).waitFor({ state: 'visible', timeout: 10000 });
+  await this.page.locator(this.elements.booksCategory).click();
+  console.log('Clicked on Books Category');
+}
 
   async verifyBookListVisible() {
     const locator = this.page.locator(this.elements.bookTitle);
@@ -60,14 +66,28 @@ export default class BookPage {
       case 'Price':
         const priceLinks = this.page.locator(this.elements.priceFilterLinks);
         const count = await priceLinks.count();
+        // for (let i = 0; i < count; i++) {
+        //   const text = await priceLinks.nth(i).textContent();
+        //   if (text?.trim() === value) {
+        //     await priceLinks.nth(i).click();
+        //     break;
+        //   }
+        // }
+        // break;
         for (let i = 0; i < count; i++) {
-          const text = await priceLinks.nth(i).textContent();
-          if (text?.trim() === value) {
-            await priceLinks.nth(i).click();
-            break;
-          }
-        }
-        break;
+    const text = await priceLinks.nth(i).textContent();
+    if (text?.trim() === value) {
+      await Promise.all([
+        this.page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
+        priceLinks.nth(i).click()
+      ]);
+      break;
+    }
+  }
+  break;
+        
+  
+
       default:
         throw new Error(`Unknown filter type: ${filterType}`);
     }
@@ -78,8 +98,11 @@ export default class BookPage {
   }
 
   async getSelectedSortOption() {
-    const selected = await this.page.locator(`${this.elements.sortByDropdown} option:checked`).textContent();
+    const selected = await this.page.locator('select#products-orderby >> option:checked').textContent();
+
+    // const selected = await this.page.locator(`${this.elements.sortByDropdown} option:checked`).textContent();
     return selected?.trim() || '';
+    
   }
 
   async clickBookLink(bookName: string) {
