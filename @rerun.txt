@@ -1,2 +1,0 @@
-src\test\features\CheckOut.feature:19
-src\test\features\Tag.feature:12:13
