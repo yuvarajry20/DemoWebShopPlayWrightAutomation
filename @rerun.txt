@@ -1,3 +1,7 @@
+<<<<<<< HEAD
 src\test\features\CheckOut.feature:8:19:31
 src\test\features\Login.feature:15:31
 src\test\features\Tag.feature:12:13
+=======
+src\test\features\CheckOut.feature:19:8:31
+>>>>>>> 1b9ccc2 (Added the MyAccountSection Scenario)
