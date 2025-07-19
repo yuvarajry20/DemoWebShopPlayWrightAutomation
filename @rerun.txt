@@ -1,3 +1,2 @@
-src\test\features\Books.feature:19:30
-src\test\features\CheckOut.feature:19
-src\test\features\Tag.feature:12
+src\test\features\CheckOut.feature:19:8:31
+src\test\features\CheckOut.feature:19src\test\features\Tag.feature:12:13
