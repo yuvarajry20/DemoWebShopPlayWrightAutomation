@@ -14,7 +14,7 @@ import CheckOutPage from '../../pages/CheckOutpage';
 
 // // });
 
-When('I log in and add an item and add to cart', async function (dataTable) {
+When('I log in and add an item and add to cart', { timeout: 20000 }, async function (dataTable) {
   const checkOutPage = new CheckOutPage(pageFixture.page!);
 
   await pageFixture.page?.waitForTimeout(2000); // waits 2 seconds
@@ -70,26 +70,20 @@ When('checkout the product', async function () {
   pageFixture.logger?.info('Clicked on checkout button after accepting terms & conditions');
  });
 
-When('select  address and payment methods', async function () { 
-  // await pageFixture.page?.waitForTimeout(5000);
+When('select address and payment methods', { timeout: 20000 }, async function () {
   const checkOutPage = new CheckOutPage(pageFixture.page!);
   await checkOutPage.selectAddress();
   await checkOutPage.clickBillingAddressContinueButton();
-  // await checkOutPage.selectStorePick();
-  
   pageFixture.logger?.info('Selected address and payment methods');
 });
 
-When('confirm order', async function () { 
-
+When('confirm order', { timeout: 20000 }, async function () { 
+  
   const checkOutPage = new CheckOutPage(pageFixture.page!);
-
-  
-  
   await checkOutPage.clickShipContinueButton();
+  await checkOutPage.clickshippinfctninue();
   await checkOutPage.clickPaymentContinueButton();
   await checkOutPage.clickPaymentInfoContinueButton();
-
   await checkOutPage.clickConfirmButtonInCheckout();
   await checkOutPage.downloadInvoiceAsPDF();
   pageFixture.logger?.info('Confirmed the order');
@@ -118,33 +112,130 @@ Then('the user should see the checkout page and billing details', async function
   
 });
 
-When('click the orders', async function () { });
+When('click the orders', { timeout: 20000 }, async function () { 
+  const checkOutPage = new CheckOutPage(pageFixture.page!);
+  await checkOutPage.clickShoppingCart();
+  await checkOutPage.clickcheckboxforcheckout();
+  await checkOutPage.clickCheckoutButton();
+   await checkOutPage.selectAddress();
+  await checkOutPage.clickBillingAddressContinueButton();
+  await checkOutPage.selectStorePick();
+  await checkOutPage.clickShipContinueButton();
+  await checkOutPage.clickPaymentContinueButton();
+  await checkOutPage.clickPaymentInfoContinueButton();
+  await checkOutPage.clickConfirmButtonInCheckout();
+});
 
-When('click the invoice pdf', async function () { });
+When('click the invoice pdf', async function () {
+  const checkOutPage = new CheckOutPage(pageFixture.page!);
+  await checkOutPage.downloadInvoicePDF();
+});
 
-Then('the user should see the entire order details', async function () { });
+Then('the user should see the entire order details', async function () {
+   const checkOutPage = new CheckOutPage(pageFixture.page!);
+   await checkOutPage.verifyInvoiceDetails();
 
-When('enter the billing address and click store pick', async function () { });
+ });
 
-When('Proceed and confirm order', async function () { });
+When('enter the billing address and click store pick',{ timeout: 20000 }, async function () {
+  const checkOutPage = new CheckOutPage(pageFixture.page!);
+  await checkOutPage.clickShoppingCart();
+  await checkOutPage.clickcheckboxforcheckout();
+  await checkOutPage.clickCheckoutButton();
+   await checkOutPage.selectAddress();
+  await checkOutPage.clickBillingAddressContinueButton();
+  await checkOutPage.selectStorePick();
+  await checkOutPage.clickShipContinueButton();
+  await checkOutPage.clickPaymentContinueButton();
+  await checkOutPage.clickPaymentInfoContinueButton();
+  
 
-Then('the user should see the order code successfully', async function () { });
+ });
 
-When('click the checkout button and proceed', async function () { });
+When('Proceed and confirm order',{ timeout: 20000 }, async function () { 
+  const checkOutPage = new CheckOutPage(pageFixture.page!);
+  await checkOutPage.clickConfirmButtonInCheckout();
+});
 
-When('select the credit card method and enter the required fields', async function (dataTable) { });
+Then('the user should see the order code successfully',{ timeout: 20000 }, async function () {
+  const checkOutPage = new CheckOutPage(pageFixture.page!);
+  await checkOutPage.downloadInvoicePDF();
+  
+ });
 
-When('proceed the details and confirm', async function () { });
+When('click the checkout button and proceed',{ timeout: 20000 }, async function () { 
+  const checkOutPage = new CheckOutPage(pageFixture.page!);
+   await checkOutPage.clickShoppingCart();
+  await checkOutPage.clickcheckboxforcheckout();
+  await checkOutPage.clickCheckoutButton();
+   await checkOutPage.selectAddress();
+  await checkOutPage.clickBillingAddressContinueButton();
+});
+
+When('select the credit card method and enter the required fields',{ timeout: 20000 }, async function (dataTable) {
+  const checkOutPage = new CheckOutPage(pageFixture.page!); 
+  await checkOutPage.selectStorePick();
+  await checkOutPage.clickShipContinueButton();
+  await checkOutPage.checkboxforcreditcard();
+  await checkOutPage.clickPaymentContinueButton()
+  const [name, number, expMonth, year, code] = dataTable.raw().flat();
+  await checkOutPage.fillCreditCardDetails(name, number, expMonth, year, code);
 
 
-When('click the checkout buttons and proceed', async function () { });
 
-When('select the two day shipping as two Day Air', async function () { });
+});
 
-When('proceed the further details', async function () { });
+When('proceed the details and confirm',{ timeout: 20000 }, async function () {
+  const checkOutPage = new CheckOutPage(pageFixture.page!); 
+  await checkOutPage.clickPaymentInfoContinueButton();
+  await checkOutPage.clickConfirmButtonInCheckout();
+ });
 
 
-When('select back and click the store pickup', async function () { });
+When('click the checkout buttons and proceed',{ timeout: 20000 }, async function () {
+  const checkOutPage = new CheckOutPage(pageFixture.page!);
+  await checkOutPage.clickShoppingCart();
+  await checkOutPage.clickcheckboxforcheckout();
+  await checkOutPage.clickCheckoutButton();
+   await checkOutPage.selectAddress();
+  await checkOutPage.clickBillingAddressContinueButton();
+  await checkOutPage.clickShipContinueButton();
 
-When('proceed the remaining steps and confirm', async function () { });
+ });
+
+When('select the two day shipping as two Day Air',{ timeout: 20000 }, async function () {
+  const checkOutPage = new CheckOutPage(pageFixture.page!);
+  await checkOutPage.twodaypickup();
+  
+
+
+ });
+
+When('proceed the further details',{ timeout: 20000 }, async function () {
+  const checkOutPage = new CheckOutPage(pageFixture.page!);
+  await checkOutPage.clickshippinfctninue();
+  await checkOutPage.clickPaymentContinueButton();
+  await checkOutPage.clickPaymentInfoContinueButton();
+  await checkOutPage.clickConfirmButtonInCheckout();
+
+ });
+
+
+When('select back and click the store pickup',{ timeout: 20000 }, async function () {
+  const checkOutPage = new CheckOutPage(pageFixture.page!);
+  await checkOutPage.backtoshippings();
+  await checkOutPage.selectStorePick();
+  await checkOutPage.clickShipContinueButton();
+  
+
+
+
+ });
+
+When('proceed the remaining steps and confirm',{ timeout: 20000 }, async function () {
+  const checkOutPage = new CheckOutPage(pageFixture.page!);
+  await checkOutPage.clickPaymentContinueButton();
+  await checkOutPage.clickPaymentInfoContinueButton();
+  await checkOutPage.clickConfirmButtonInCheckout();
+ });
 
