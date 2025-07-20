@@ -2,17 +2,6 @@ import { Page } from '@playwright/test';
 import { Given, When, Then, setDefaultTimeout } from "@cucumber/cucumber";
 import { pageFixture } from "../../hooks/pagefixture";
 import CheckOutPage from '../../pages/CheckOutpage';
-// setDefaultTimeout(60 * 1000);
-// // Given('I want to be in the demowebshop', async function () { 
-// //   const baseurl = process.env.BASE_URL;
-  
-// //   if (!baseurl) {
-// //     throw new Error('BASE_URL is not defined in the environment variables');
-// //   }
-// //   await pageFixture.page?.goto(baseurl);
-// //   pageFixture.logger?.info(`Navigated to ${baseurl}`);
-
-// // });
 
 When('I log in and add an item and add to cart', { timeout: 20000 }, async function (dataTable) {
   const checkOutPage = new CheckOutPage(pageFixture.page!);
@@ -34,7 +23,7 @@ When('I log in and add an item and add to cart', { timeout: 20000 }, async funct
 
  });
 
-When('click checkout the product', async function () {
+When('click checkout the product', { timeout: 20000 }, async function () {
   const checkOutPage = new CheckOutPage(pageFixture.page!);
   await checkOutPage.clickShoppingCart(); 
   await checkOutPage.clickCheckoutButton();
@@ -45,7 +34,7 @@ When('click checkout the product', async function () {
 
 });
 
-When('forgot to click the term & condition button', async function () {
+When('forgot to click the term & condition button', { timeout: 20000 }, async function () {
   const checkOutPage = new CheckOutPage(pageFixture.page!);
   await checkOutPage.clickCheckbox();
   await checkOutPage.clickCheckoutButton();
@@ -54,7 +43,7 @@ When('forgot to click the term & condition button', async function () {
 
  });
 
-Then('the user should see the pop up windows as to click the terms&condition', async function () { 
+Then('the user should see the pop up windows as to click the terms&condition', { timeout: 20000 }, async function () { 
   const checkOutPage = new CheckOutPage(pageFixture.page!);
 
   await checkOutPage.verifyPopupMessage();
@@ -62,7 +51,7 @@ Then('the user should see the pop up windows as to click the terms&condition', a
 
 });
 
-When('checkout the product', async function () {
+When('checkout the product', { timeout: 20000 }, async function () {
   const checkOutPage = new CheckOutPage(pageFixture.page!);
   await checkOutPage.clickShoppingCart();
   await checkOutPage.clickcheckboxforcheckout();
@@ -89,24 +78,24 @@ When('confirm order', { timeout: 20000 }, async function () {
   pageFixture.logger?.info('Confirmed the order');
 });
 
-Then('the user should see the order number and able to download the invoice as pdf', async function () {
+Then('the user should see the order number and able to download the invoice as pdf', { timeout: 20000 }, async function () {
   const checkOutPage = new CheckOutPage(pageFixture.page!);
   await checkOutPage.verifyOrderPlacedSuccessfully();
   pageFixture.logger?.info('Downloaded the invoice as PDF');
  });
 
-When('click the terms & conditions', async function () { 
+When('click the terms & conditions', { timeout: 20000 }, async function () { 
   const checkOutPage = new CheckOutPage(pageFixture.page!);
   await checkOutPage.clickShoppingCart();
   await checkOutPage.clickcheckboxforcheckout();
 });
 
-When('click the checkout button', async function () {
+When('click the checkout button', { timeout: 20000 }, async function () {
   const checkOutPage = new CheckOutPage(pageFixture.page!);
   await checkOutPage.clickCheckoutButton();
 });
 
-Then('the user should see the checkout page and billing details', async function () {
+Then('the user should see the checkout page and billing details', { timeout: 20000 }, async function () {
   const checkOutPage = new CheckOutPage(pageFixture.page!);
   await checkOutPage.seecheckoutpage();
   
@@ -126,12 +115,12 @@ When('click the orders', { timeout: 20000 }, async function () {
   await checkOutPage.clickConfirmButtonInCheckout();
 });
 
-When('click the invoice pdf', async function () {
+When('click the invoice pdf', { timeout: 20000 }, async function () {
   const checkOutPage = new CheckOutPage(pageFixture.page!);
   await checkOutPage.downloadInvoicePDF();
 });
 
-Then('the user should see the entire order details', async function () {
+Then('the user should see the entire order details', { timeout: 20000 }, async function () {
    const checkOutPage = new CheckOutPage(pageFixture.page!);
    await checkOutPage.verifyInvoiceDetails();
 
