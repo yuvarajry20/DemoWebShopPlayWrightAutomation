@@ -74,7 +74,7 @@ export default class BookPage {
         //   }
         // }
         // break;
-        for (let i = 0; i < count; i++) {
+    for (let i = 0; i < count; i++) {
     const text = await priceLinks.nth(i).textContent();
     if (text?.trim() === value) {
       await Promise.all([
@@ -85,9 +85,6 @@ export default class BookPage {
     }
   }
   break;
-        
-  
-
       default:
         throw new Error(`Unknown filter type: ${filterType}`);
     }

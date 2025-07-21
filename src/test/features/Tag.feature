@@ -1,4 +1,4 @@
-Feature: DemoWebShop Popular tags
+Feature: LAKSITHA_17JUL2025_DemoWebShop_Popular_tags
 
 Scenario Outline: Tags should be navigated to product page
   Given I want to be in the demowebshop
