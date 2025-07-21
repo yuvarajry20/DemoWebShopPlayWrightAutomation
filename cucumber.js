@@ -16,7 +16,7 @@ module.exports = {
       "rerun:@rerun.txt"
     ],
     requireModule: ["ts-node/register"],
-    parallel: 4
+    parallel: 3
   },
   rerun: {
     formatOptions: {
