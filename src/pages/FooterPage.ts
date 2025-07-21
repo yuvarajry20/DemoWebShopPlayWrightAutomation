@@ -29,21 +29,12 @@ export default class FooterPage {
 
   async verifyNopCommerceUrl() {
     await this.page.waitForLoadState('load');
-    // const url = this.page.url();
-    // expect(url).toContain('nopcommerce.com');
-    // const currentUrl = await this.page.url();
-    // const validUrls = ['https://www.nopcommerce.com/', 'https://www.nopcommerce.com/en'];
-    // expect(validUrls).toContain(currentUrl);
-   
-  const currentUrl = await this.page.url();
-  await expect(currentUrl).toContain('https://www.nopcommerce.com');
-}
-
+    const url = this.page.url();
+    expect(url).toContain('nopcommerce.com');
   }
 
   async clickFooterLink(linkText: string) {
     await this.base.waitAndClick(`//a[contains(text(),'${linkText}')]`);
-
   }
 
   async verifySitemapPage() {

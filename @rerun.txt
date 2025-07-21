@@ -1,4 +1,0 @@
-src\test\features\Books.feature:19
-src\test\features\NopCommerce.feature:7
-src\test\features\Review.feature:4:12:31:32:33
-src\test\features\Tag.feature:12
