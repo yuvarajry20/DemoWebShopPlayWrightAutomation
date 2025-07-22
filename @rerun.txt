@@ -1,1 +1,4 @@
-src\test\features\Product.feature:8
+src\test\features\Books.feature:19
+src\test\features\Product.feature:8:63
+src\test\features\Tag.feature:12
+src\test\features\UserRegistration.feature:14
