@@ -1,106 +1,82 @@
-// import { Given, When, Then } from '@cucumber/cucumber';
-// import { expect } from '@playwright/test';
-// import { pageFixture } from '../../hooks/pagefixture';
-// import ReviewPage from '../../pages/ReviewPage';
-// import LoginPage from '../../pages/LoginPage';
+import { Given, When, Then } from '@cucumber/cucumber';
+import { expect } from '@playwright/test';
+import { pageFixture } from '../../hooks/pagefixture';
+import { ReviewPage } from '../../pages/ReviewPage';
+import LoginPage from '../../pages/LoginPage';
+// import {getReviewTestData} from '../../helper/utility/test-Data/ExcelReviewData.xlsx';
+import { getReviewTestData } from '../../helper/utility/ExcelReader';
 
-// let reviewPage: ReviewPage;
-// let loginPage: LoginPage;
 
-// // Given('I am on the DemoWebShop Homepage {string}', async function (url: string) {
-//   reviewPage = new ReviewPage(pageFixture.page!);
-//   loginPage = new LoginPage(pageFixture.page!);
-// //   await reviewPage.navigateTo(url);
-// //   await pageFixture.logger?.info(`Navigated to: ${url}`);
-// // });
+let reviewPage: ReviewPage;
+let loginPage: LoginPage;
 
-// Given('I navigate to the {string} category', async function () {
-//      reviewPage = new ReviewPage(pageFixture.page!);
-//   loginPage = new LoginPage(pageFixture.page!);
+// ------------------- Read Reviews Scenario ------------------- //
 
-//   await reviewPage.clickGiftCategory();
-//   await pageFixture.logger?.info('Clicked on Gift Category');
-// });
+When('I navigate to the {string} category', async function (category: string) {
+  reviewPage = new ReviewPage(pageFixture.page!);
+  await reviewPage.navigateToCategory();
+});
 
-// When('I select the product {string}', async function () {
-//   await reviewPage.clickGiftCard();
-//   await pageFixture.logger?.info('Clicked on Gift Card');
-// });
+When('I select the product {string}', async function (product: string) {
+  await reviewPage.selectGiftCard();
+});
 
-// When('I click on the {string} link', async function () {
-//   await reviewPage.clickReviewsLink();
-//   await pageFixture.logger?.info('Clicked on Reviews link');
-// });
+When('I click on the {string} link', async function (linkText: string) {
+  await reviewPage.clickReviewsLink();
+});
 
-// Then('I should see the reviews that have been submitted previously', async function () {
-//   const reviewText = await reviewPage.getSubmittedReviewText();
-//   await pageFixture.logger?.info(`Read review text: ${reviewText}`);
-// });
+Then('I should see the reviews that have been submitted previously', async function () {
+  await reviewPage.verifyReviewsDisplayed();
+});
 
-// When('click on {string} link', async function () {
-//   await reviewPage.clickAddReviewLink();
-//   await pageFixture.logger?.info('Clicked on Add Review link');
-// });
+// ------------------- Invalid Review Scenario ------------------- //
 
-// When('click on submit review', async function () {
-//   await reviewPage.clickSubmitReview();
-//   await pageFixture.logger?.info('Clicked on Submit Review button');
-// });
+When('click on {string} link', async function (linkText: string) {
+  await reviewPage.clickAddReviewLink();
+});
 
-// Then('I should see {string}', async function () {
-//   const message = await reviewPage.getRegisterErrorMessage();
-//   await expect(message).toContain('Only registered users can write reviews');
-//   await pageFixture.logger?.info(`Validation message verified: ${message}`);
-// });
+When('click on submit review', async function () {
+  await reviewPage.submitReview();
+});
 
-// Given('I am logged in to Demowebshop application with {string}', async function (url: string) {
-//   await reviewPage.navigateTo(url);
-//   await loginPage.clickLoginLink();
-//   await loginPage.enterEmail('abccy@gmail.com');
-//   await loginPage.enterPassword('789456');
-//   await loginPage.clickLoginButton();
-//   await pageFixture.logger?.info('Logged in with predefined credentials');
-// });
+Then('I should see {string}', async function (expectedMessage: string) {
+  await reviewPage.verifyRegisterError(expectedMessage);
+});
 
-// Given('I navigate to the gift cards page and click the product', async function () {
-//   await reviewPage.clickGiftCategory();
-//   await reviewPage.clickGiftCard();
-//   await pageFixture.logger?.info('Navigated to Gift Card details page');
-// });
+// ------------------- Review with Excel Data Scenario ------------------- //
 
-// When('I click on the {string} button', async function () {
-//   await reviewPage.clickGiftCard();
-//   await pageFixture.logger?.info('Clicked on Gift Card');
-// });
+Given('I login with following credentials:', async function (dataTable) {
+  loginPage = new LoginPage(pageFixture.page!);
+  const data = dataTable.hashes()[0];
+  await loginPage.clickLoginLink();
+  await loginPage.enterEmail(data.email);
+  await loginPage.enterPassword(data.password);
+  await loginPage.clickLoginButton();
+});
 
-// When('I enter review {string}, {string} and click the rating value', async function (title: string, text: string) {
-//   await reviewPage.clickAddReviewLink();
-//   await reviewPage.enterReviewTitle(title);
-//   await reviewPage.enterReviewText(text);
-//   await reviewPage.selectRating();
-//   await pageFixture.logger?.info(`Entered review with title: ${title} and text: ${text}`);
-// });
+Given('I navigate to the gift cards page and click the product', async function () {
+  reviewPage = new ReviewPage(pageFixture.page!);
+  await reviewPage.navigateToCategory();
+  await reviewPage.selectGiftCard();
+});
 
-// When('I click the {string} button', async function () {
-//   await reviewPage.clickSubmitReview();
-//   await pageFixture.logger?.info('Clicked on Submit Review');
-// });
+When('I click on the {string} button', async function (buttonText: string) {
+  await reviewPage.clickAddReviewLink();
+});
 
-// Then('I should see the error message {string}', async function (expected: string) {
-//   let actualMessage: string = '';
+Then('I submit reviews using data from {string} and sheet {string}', async function (file: string, sheet: string) {
+  // const reviewData = getReviewTestData(file, sheet);
+   const reviewData = getReviewTestData('src/helper/utility/test-data/ExcelReviewData.xlsx', 'Sheet1');
+  //  const reviewData = getReviewTestData(file, sheet);
+  for (const data of reviewData as { title: string; text: string; expectedMessage: string }[]) {  
+  for (const data of reviewData) {
+    await reviewPage.clickAddReviewLink();
+    await reviewPage.enterReview(data.title, data.text);
+    await reviewPage.clickRating();
+    await reviewPage.clickSubmitReview();
 
-//   if (expected === 'Product review is successfully added.') {
-//     actualMessage = await reviewPage.getSuccessMessage();
-//     await expect(actualMessage).toBe(expected);
-//   } else if (expected === 'Review title is required.') {
-//     actualMessage = await reviewPage.getBlankTitleError();
-//     await expect(actualMessage).toBe(expected);
-//   } else if (expected === 'Review text is required.') {
-//     actualMessage = await reviewPage.getBlankTextError();
-//     await expect(actualMessage).toBe(expected);
-//   } else {
-//     throw new Error(`Unsupported expected message: ${expected}`);
-//   }
-
-//   await pageFixture.logger?.info(`Validation message verified: ${actualMessage}`);
-// });
+    const message = await reviewPage.getValidationMessage();
+    expect(message.trim()).toBe(data.expectedMessage);
+  }
+  }
+});

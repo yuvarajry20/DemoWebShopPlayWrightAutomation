@@ -1,0 +1,7 @@
+src\test\features\Books.feature:19:30
+src\test\features\CheckOut.feature:43:67:84:96
+src\test\features\NopCommerce.feature:7
+src\test\features\Review.feature:4:12:21
+src\test\features\Tag.feature:12
+src\test\features\Tricentis.feature:25
+src\test\features\UserRegistration.feature:14

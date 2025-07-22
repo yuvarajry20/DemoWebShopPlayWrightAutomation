@@ -18,7 +18,7 @@ Scenario: User clicks the Sitemap link and navigates to SiteMap Page
 Scenario: User clicks the Contact us link and submits the query
     And clicks on the Contact us link
     And enters the contact details
-      |name      |email       |enquiry           |
+      |name      |email                |enquiry           |
       |sakthi    |testemail@gmail.com  |Test Demo enquiry |
     And clicks on the submit button
     Then the confirmation should be displayed
