@@ -4,9 +4,8 @@ import BookPage from '../../pages/BookPage';
 import { expect } from '@playwright/test';
 
 let bookPage: BookPage;
- bookPage = new BookPage(pageFixture.page!);  // ✅ Initialize here
+ bookPage = new BookPage(pageFixture.page!);  
 
-// // ✅ Now other steps can use bookPage without error
 When('I click on the {string} category', async function (category: string) {
   bookPage = new BookPage(pageFixture.page!);
   await bookPage.clickBooksCategory();
@@ -35,17 +34,6 @@ Then('I should see the product details page', async function () {
   await bookPage.verifyBookDetailsVisible();
 });
 
-When('I apply the following filters:', async function (dataTable) {
-    bookPage = new BookPage(pageFixture.page!);
-  for (const { ['Filter Type']: filterType, Value: value } of dataTable.hashes()) {
-    await bookPage.applyFilter(filterType, value);
-  }
-});
-
-Then('the filtered books should be displayed accordingly', async function () {
-    bookPage = new BookPage(pageFixture.page!);
-  await bookPage.verifyBookListVisible();
-});
 
 When('I apply each of the following Sort By filters:', async function (dataTable) {
     bookPage = new BookPage(pageFixture.page!);

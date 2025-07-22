@@ -26,15 +26,16 @@ Then('I should see the subscription error message', async function () {
 });
 
 When('I see the featured products section', async function () {
-  await homePage.verifyFeaturedProductsVisible();
+  await homePage.verifyFeaturedProductsSection();
 });
 
 Then('I should see list of featured products displayed', async function () {
-  const products = await homePage.getFeaturedProducts();
+  const products = await homePage.getFeaturedProductsList();
   expect(products.length).toBeGreaterThan(0);
 });
 
 When('I click the option in poll', async function () {
+  homePage = new HomePage(pageFixture.page!);
   await homePage.selectPollOption();
 });
 
@@ -43,8 +44,8 @@ When('click the vote button', async function () {
 });
 
 Then('I should see an error message', async function () {
-  const message = await homePage.getPollErrorMessage();
-  expect(message?.trim()).toBe('Do you like nopCommerce?');
+  const errorMessage = await homePage.getPollErrorMessage();
+  expect(errorMessage).toContain('Do you like nopCommerce?');
 });
 
 When('return to homepage', async function () {

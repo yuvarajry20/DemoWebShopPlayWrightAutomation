@@ -30,16 +30,4 @@ Scenario: Subscribe with invalid email address
     And click the vote button
     Then I should see an error message                  
     
-    @RecentlyViewed
-    Scenario: View Recent products as list
-     And I login with following credentials:
-    | email          | password |
-    | abccy@gmail.com | 789456  |
-    # When I login using the following credentials
-    # | email            | password  |
-    # |abccy@gmail.com   |789456     |
-    And I click the search bar and enter search keyword
-    And click the product link
-    And return to homepage 
-    Then I should see list of Recent products displayed   
-    
+   

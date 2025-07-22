@@ -21,6 +21,7 @@
     "@types/node": "^24.0.15",
     "dotenv": "^17.2.0",
     "install": "^0.13.0",
+    "multiple": "^0.2.1",
     "multiple-cucumber-html-reporter": "^3.9.3",
     "rmraf": "^1.0.3",
     "ts-node": "^10.9.2",

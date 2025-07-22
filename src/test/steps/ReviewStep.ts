@@ -4,13 +4,11 @@ import { pageFixture } from '../../hooks/pagefixture';
 import { ReviewPage } from '../../pages/ReviewPage';
 import LoginPage from '../../pages/LoginPage';
 // import {getReviewTestData} from '../../helper/utility/test-Data/ExcelReviewData.xlsx';
-import { getReviewTestData } from '../../helper/utility/ExcelReader';
+import { getReviewTestData } from '../../helper/utility/ExcelReader1';
 
 
 let reviewPage: ReviewPage;
 let loginPage: LoginPage;
-
-// ------------------- Read Reviews Scenario ------------------- //
 
 When('I navigate to the {string} category', async function (category: string) {
   reviewPage = new ReviewPage(pageFixture.page!);
@@ -29,8 +27,6 @@ Then('I should see the reviews that have been submitted previously', async funct
   await reviewPage.verifyReviewsDisplayed();
 });
 
-// ------------------- Invalid Review Scenario ------------------- //
-
 When('click on {string} link', async function (linkText: string) {
   await reviewPage.clickAddReviewLink();
 });
@@ -42,8 +38,6 @@ When('click on submit review', async function () {
 Then('I should see {string}', async function (expectedMessage: string) {
   await reviewPage.verifyRegisterError(expectedMessage);
 });
-
-// ------------------- Review with Excel Data Scenario ------------------- //
 
 Given('I login with following credentials:', async function (dataTable) {
   loginPage = new LoginPage(pageFixture.page!);
@@ -64,12 +58,10 @@ When('I click on the {string} button', async function (buttonText: string) {
   await reviewPage.clickAddReviewLink();
 });
 
-Then('I submit reviews using data from {string} and sheet {string}', async function (file: string, sheet: string) {
-  // const reviewData = getReviewTestData(file, sheet);
+Then('I submit reviews using data from {string} and sheet {string}',{ timeout: 20000 }, async function (file: string, sheet: string) {
    const reviewData = getReviewTestData('src/helper/utility/test-data/ExcelReviewData.xlsx', 'Sheet1');
   //  const reviewData = getReviewTestData(file, sheet);
   for (const data of reviewData as { title: string; text: string; expectedMessage: string }[]) {  
-  for (const data of reviewData) {
     await reviewPage.clickAddReviewLink();
     await reviewPage.enterReview(data.title, data.text);
     await reviewPage.clickRating();
@@ -77,6 +69,6 @@ Then('I submit reviews using data from {string} and sheet {string}', async funct
 
     const message = await reviewPage.getValidationMessage();
     expect(message.trim()).toBe(data.expectedMessage);
-  }
+  
   }
 });

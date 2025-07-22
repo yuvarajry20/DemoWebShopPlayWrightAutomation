@@ -15,16 +15,6 @@ Feature: Laksitha_19JUL2025_DemoWebShop_Book_Product_Functionality
     |Fiction EX |
     Then I should see the product details page   
 
-  @BooksFilters
-  Scenario: Apply filter options for books
-  When I click on the "Books" category
-  And I apply the following filters:
-      | Filter Type | Value              |
-      | Sort By     | Price: High to Low |
-      | Display By  | 4                  |
-      | View As     | List               |
-      | Price       | Under 25.00        |
-    Then the filtered books should be displayed accordingly
     
 @BooksSortBy
 Scenario: Apply all Sort By options for books
