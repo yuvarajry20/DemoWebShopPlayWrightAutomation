@@ -1,5 +1,10 @@
 src\test\features\Books.feature:19
 <<<<<<< HEAD
+src\test\features\Product.feature:8:63
+src\test\features\Tag.feature:12
+src\test\features\UserRegistration.feature:14
+=======
+<<<<<<< HEAD
 src\test\features\CheckOut.feature:19
 src\test\features\Product.feature:30:63
 src\test\features\Tag.feature:12
@@ -7,3 +12,4 @@ src\test\features\Tag.feature:12
 src\test\features\CheckOut.feature:56:96
 src\test\features\Tag.feature:12
 >>>>>>> d0c7844 (modified some changes in Address scenario)
+>>>>>>> daf5eaee8826aa3446ebb3c015e2bc94d1321dea
