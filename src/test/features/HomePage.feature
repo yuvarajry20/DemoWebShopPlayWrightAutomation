@@ -1,4 +1,4 @@
-Feature: Laksitha_12APR2025_DemoWebShop_HomePageFunctionality 
+Feature: Laksitha_13JUL2025_DemoWebShop_HomePageFunctionality 
 
 Background: 
   Given I want to be in the demowebshop 

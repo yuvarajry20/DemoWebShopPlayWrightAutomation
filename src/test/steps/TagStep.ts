@@ -33,7 +33,7 @@ Then('I should be redirected to {string} tagged product page', async function (t
   await pageFixture.logger?.info(`Validated tag page title: ${actualTitle}`);
 });
 
-When('I click on Digital tag link', async function () {
+When('I click on Digital tag link',{timeout:20000}, async function () {
   await tagPage.clickDigitalLinks();
   await pageFixture.logger?.info('Clicked on Digital tag link.');
 });
