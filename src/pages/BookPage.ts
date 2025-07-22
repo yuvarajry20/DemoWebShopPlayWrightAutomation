@@ -52,46 +52,40 @@ export default class BookPage {
     await expect(this.page.locator(this.elements.fictionDetail)).toBeVisible();
   }
 
-  async applyFilter(filterType: string, value: string) {
-    switch (filterType) {
-      case 'Sort By':
-        await this.page.selectOption(this.elements.sortByDropdown, { label: value });
-        break;
-      case 'Display By':
-        await this.page.selectOption(this.elements.displayDropdown, value);
-        break;
-      case 'View As':
-        await this.page.selectOption(this.elements.viewAsDropdown, { label: value });
-        break;
-      case 'Price':
-        const priceLinks = this.page.locator(this.elements.priceFilterLinks);
-        const count = await priceLinks.count();
-        // for (let i = 0; i < count; i++) {
-        //   const text = await priceLinks.nth(i).textContent();
-        //   if (text?.trim() === value) {
-        //     await priceLinks.nth(i).click();
-        //     break;
-        //   }
-        // }
-        // break;
-        for (let i = 0; i < count; i++) {
-    const text = await priceLinks.nth(i).textContent();
-    if (text?.trim() === value) {
-      await Promise.all([
-        this.page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
-        priceLinks.nth(i).click()
-      ]);
+ async applyFilter(filterType: string, value: string) {
+  switch (filterType) {
+    case 'Sort By':
+      await this.page.locator(this.elements.sortByDropdown).selectOption({ label: value });
       break;
-    }
-  }
-  break;
-        
-  
 
-      default:
-        throw new Error(`Unknown filter type: ${filterType}`);
-    }
+    case 'Display By':
+      await this.page.locator(this.elements.displayDropdown).selectOption(value);
+      break;
+
+    case 'View As':
+      await this.page.locator(this.elements.viewAsDropdown).selectOption({ label: value });
+      break;
+
+    case 'Price':
+      const priceLinks = this.page.locator(this.elements.priceFilterLinks);
+      const count = await priceLinks.count();
+
+      for (let i = 0; i < count; i++) {
+        const text = await priceLinks.nth(i).textContent();
+        if (text?.trim() === value) {
+          await Promise.all([
+            this.page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
+            priceLinks.nth(i).click()
+          ]);
+          break;
+        }
+      }
+      break;
+
+    default:
+      throw new Error(`Unknown filter type: ${filterType}`);
   }
+}
 
   async applySortByOption(option: string) {
     await this.page.selectOption(this.elements.sortByDropdown, { label: option });
