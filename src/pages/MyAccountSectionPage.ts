@@ -37,12 +37,10 @@ export default class MyAccountSectionPage {
     myEmail: "//a[contains(text(), 'abccy@gmail.com')]"
   };
 
-  // ============ Common ============
   async clickMyEmail() {
     await this.base.waitAndClick(this.elements.myEmail);
   }
 
-  // ============ Customer Info ============
   async clickCustomerInfo() {
     await this.base.waitAndClick(this.elements.customerInfoLink);
   }
@@ -67,7 +65,6 @@ export default class MyAccountSectionPage {
     };
   }
 
-  // ============ Orders ============
   async clickOrders() {
     await this.base.waitAndClick(this.elements.ordersLink);
   }
@@ -88,12 +85,12 @@ export default class MyAccountSectionPage {
     return await this.page.locator(this.elements.productName).textContent() ?? '';
   }
 
-  // ============ Back in Stock ============
+
   async clickBackInStockSubscriptions() {
     await this.base.waitAndClick(this.elements.backInStockLink);
   }
 
-  // Alias for backward compatibility
+
   async clickBackInStock() {
     await this.clickBackInStockSubscriptions();
   }
@@ -102,7 +99,6 @@ export default class MyAccountSectionPage {
     return await this.page.locator(this.elements.backInStockMessage).textContent() ?? '';
   }
 
-  // ============ Reward Points ============
   async clickRewardPoints() {
     await this.base.waitAndClick(this.elements.rewardPointsLink);
   }
@@ -114,8 +110,6 @@ export default class MyAccountSectionPage {
   async getRewardPointsHistory(): Promise<string> {
     return await this.page.locator(this.elements.rewardPointsHistory).textContent() ?? '';
   }
-
-  // ============ Change Password ============
   async clickChangePassword() {
     await this.base.waitAndClick(this.elements.changePasswordLink);
   }

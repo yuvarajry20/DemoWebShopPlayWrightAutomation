@@ -62,8 +62,8 @@ export default class AddressPage {
   async deleteAddressIfPresent() {
     const deleteButton = this.page.locator(this.elements.deleteButton);
     if (await deleteButton.isVisible()) {
-      this.page.once('dialog', async dialog => await dialog.accept());
       await deleteButton.click();
+      this.page.once('dialog', async dialog => await dialog.accept());
     }
   }
 }

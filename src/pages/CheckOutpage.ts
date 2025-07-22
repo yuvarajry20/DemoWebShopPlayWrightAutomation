@@ -62,7 +62,6 @@ private Elements = {
 
     async clickLoginButtonHomePage() {
         await this.base.waitAndClick(this.Elements.loginButtonHomePages);
-        // await this.base.waitForTimeout(2000); // waits 2 seconds
 
     }
 
@@ -186,12 +185,10 @@ private Elements = {
     }
     async downloadInvoicePDF() {
     try {
-      // Locate and click on the "Click here for order details." link
       const orderDetailsLink = this.page.locator(this.Elements.orderdetailslink);
       await orderDetailsLink.scrollIntoViewIfNeeded();
       await orderDetailsLink.click();
 
-      // Validate the "Order information" text
       const actualText = await this.page.locator(this.Elements.orderinformation).textContent();
       const expectedText = "Order information";
 
@@ -203,7 +200,6 @@ private Elements = {
     }
   }
    async verifyInvoiceDetails() {
-    // Get all invoice summary text elements
     const elements = this.page.locator(this.Elements.invoicedetailstext);
     const count = await elements.count();
 
@@ -212,7 +208,6 @@ private Elements = {
       console.log(text?.trim());
     }
 
-    // Wait for heading "Order information" and verify it
     const header = this.page.locator(this.Elements.orderinfotext);
     await header.waitFor({ state: 'visible', timeout: 30000 });
 
@@ -229,7 +224,7 @@ private Elements = {
   async fillCreditCardDetails(name: string, number: string, expMonth: string, year: string, code: string) {
     await this.page.fill(this.Elements.cardholdername, name);
     await this.page.fill(this.Elements.cardnumber, number);
-    await this.page.selectOption(this.Elements.expirymonth, expMonth);  // Make sure expMonth is like "05"
+    await this.page.selectOption(this.Elements.expirymonth, expMonth); 
     await this.page.selectOption(this.Elements.year, year);
     await this.page.fill(this.Elements.cardcode, code);
 
