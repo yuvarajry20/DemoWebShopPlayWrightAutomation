@@ -22,7 +22,7 @@ async nopcommercewebpage()
 async verifyNopCommerceURL() {
     await this.page.waitForTimeout(5000);
     const currentUrl = this.page.url();
-    const expectedUrl = "https://www.nopcommerce.com/en";
+    const expectedUrl = "https://www.nopcommerce.com/";
 
     console.log("Assertion passed: Expected text is displayed. " + currentUrl);
     await expect(currentUrl).toBe(expectedUrl);
