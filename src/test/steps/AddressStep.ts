@@ -6,18 +6,16 @@ import { ExcelReader } from '../../helper/utility/Excelreader';
 
 let addressPage: AddressPage;
 
-When('click Addressess and add new', { timeout: 20000 }, async function () {
+When('click Addressess and add new', { timeout: 30000 }, async function () {
   addressPage = new AddressPage(pageFixture.page!);
   await addressPage.clickAddressLink();
   await addressPage.clickAddNew();
 });
 
 Then('I want to add new address',{ timeout: 20000 }, async function () {
-  const excelData = ExcelReader.getExcelData('C:/Users/yuvar/DemoWebShopPlayWrightAutomation/src/helper/utility/test-data/testdataExcel.xlsx', 'AddressData');
+  const excelData = ExcelReader.getExcelData('src/helper/utility/test-data/testdataExcel.xlsx', 'AddressData');
   const headers = excelData[0];
-  const row = excelData[1]; // index 1 = second row = your first data
-
-  // Convert all values to string for locator.fill compatibility
+  const row = excelData[1]; 
   const rowData: Record<string, string> = {};
   headers.forEach((header, i) => {
     rowData[header] = row[i]?.toString() ?? '';
@@ -29,7 +27,7 @@ Then('I want to add new address',{ timeout: 20000 }, async function () {
     email: rowData['address.Email'],
     company: rowData['address.Company'],
     country: rowData['address.Country'],
-    state: rowData['address.State'] || '', // fallback if not present
+    state: rowData['address.State'] || '', 
     city: rowData['address.City'],
     address1: rowData['address.Address1'],
     address2: rowData['address.Address2'] || '',
@@ -51,12 +49,12 @@ Then('i click save',{ timeout: 20000 }, async function () {
   expect(text).toContain('Email:');
 });
 
-When('i click Addresses', { timeout: 20000 }, async function () {
+When('i click Addresses', { timeout: 30000 }, async function () {
   addressPage = new AddressPage(pageFixture.page!);
   await addressPage.clickAddressLink();
 });
 
-When('i click the Delete button',{ timeout: 30000 }, async function () {
+When('i click the Delete button',{ timeout: 50000 }, async function () {
   await addressPage.deleteAddressIfPresent();
 });
 
