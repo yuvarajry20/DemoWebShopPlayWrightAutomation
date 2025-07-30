@@ -1,8 +1,11 @@
 Feature: Laksitha_21JUL2025_DemoWebShop_Review_a_product
 
+Background:
+    Given I want to be in the demowebshop
+
 @ReadReviews
 Scenario: View submitted reviews of a product
-    Given I want to be in the demowebshop
+    # Given I want to be in the demowebshop
     And I navigate to the "GiftCards" category
     When I select the product "$50 Physical Gift Card"
     And I click on the "Reviews" link
@@ -10,7 +13,7 @@ Scenario: View submitted reviews of a product
     
 @InvalidReview
 Scenario: Write a review without logging 
-    Given I want to be in the demowebshop
+    # Given I want to be in the demowebshop
     And I navigate to the "GiftCards" category
     When I select the product "$50 Physical Gift Card"
     And click on "Add your Review" link
@@ -19,7 +22,7 @@ Scenario: Write a review without logging
 
 @ReviewAproduct
  Scenario Outline: Submit review with valid and invalid inputs
-    Given I want to be in the demowebshop
+    # Given I want to be in the demowebshop
      And I login with following credentials:
     | email          | password |
     | abccy@gmail.com | 789456  |
@@ -28,10 +31,6 @@ Scenario: Write a review without logging
     Then I submit reviews using data from "ExcelReviewData.xlsx" and sheet "Sheet1"
 
 
-
-
-
-    # And I navigate to the gift cards page and click the product
     # When I click on the "Add your review" button
     # And I enter review "<title>", "<text>" and click the rating value
     # And I click the "Submit review" button
