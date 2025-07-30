@@ -1,14 +1,3 @@
-// import * as XLSX from 'xlsx';
-// import * as fs from 'fs';
-
-// export function getReviewTestData(filePath: string, sheetName: string) {
-//   if (!fs.existsSync(filePath)) {
-//     throw new Error(`Test data file not found at ${filePath}`);
-//   }
-//   const workbook = XLSX.readFile(filePath);
-//   const sheet = workbook.Sheets[sheetName];
-//   return XLSX.utils.sheet_to_json(sheet);
-// }
 import * as XLSX from 'xlsx';
 import * as fs from 'fs';
 

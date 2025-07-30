@@ -58,34 +58,15 @@ When('I click on the {string} button', async function (buttonText: string) {
   await reviewPage.clickAddReviewLink();
 });
 
-// Then('I submit reviews using data from {string} and sheet {string}',{ timeout: 20000 }, async function (file: string, sheet: string) {
-//    const reviewData = getReviewTestData('src/helper/utility/test-data/ExcelReviewData.xlsx', 'Sheet1');
-//   //  const reviewData = getReviewTestData(file, sheet);
-//   for (const data of reviewData as { title: string; text: string; expectedMessage: string }[]) {  
-//     await reviewPage.clickAddReviewLink();
-//     await reviewPage.enterReview(data.title, data.text);
-//     // await reviewPage.clickRating();
-//     await reviewPage.clickSubmitReview();
-
-//     const message = await reviewPage.getValidationMessage();
-//     expect(message.trim()).toBe(data.expectedMessage);
-  
-//   }
-// });
-Then('I submit reviews using data from {string} and sheet {string}', { timeout: 60000 }, async function (file: string, sheet: string) {
-  // const reviewData = getReviewTestData(file, sheet);
-  const reviewData = getReviewTestData('src/helper/utility/test-Data/ExcelReviewData.xlsx', 'Sheet1');
-  for (const data of reviewData) {
+Then('I submit reviews using data from {string} and sheet {string}',{ timeout: 20000 }, async function (file: string, sheet: string) {
+  const reviewData = getReviewTestData('src/helper/utility/test-data/ExcelReviewData.xlsx', 'Sheet1');
+  for (const data of reviewData as { title: string; text: string; expectedMessage: string }[]) {  
     await reviewPage.clickAddReviewLink();
-    await reviewPage.enterReview(data.title.trim(), data.text.trim());
-
-    
-    await Promise.all([
-      reviewPage.clickSubmitReview(),
-      pageFixture.page!.waitForSelector('//div[@class="result"] | //span[@data-valmsg-for="AddProductReview.Title"] | //span[@data-valmsg-for="AddProductReview.ReviewText"]', { timeout: 10000 })
-    ]);
+    await reviewPage.enterReview(data.title, data.text);
+    await reviewPage.clickSubmitReview();
 
     const message = await reviewPage.getValidationMessage();
-    expect(message.trim()).toBe(data.expectedMessage.trim());
+    expect(message.trim()).toBe(data.expectedMessage);
+  
   }
 });

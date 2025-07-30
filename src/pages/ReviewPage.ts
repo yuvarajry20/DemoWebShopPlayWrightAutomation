@@ -48,11 +48,7 @@ export class ReviewPage {
   async enterReview(title: string, text: string) {
     await this.reviewTitle().fill(title);
     await this.reviewText().fill(text);
-    await this.ratingButton().click();
-  }
-
-  async clickRating() {
-    await this.ratingButton().click();
+    // await this.ratingButton().click();
   }
 
   async clickSubmitReview() {
